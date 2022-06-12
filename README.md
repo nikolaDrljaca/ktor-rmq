@@ -40,7 +40,7 @@ We have two modules in this project:
    docker build --no-cache --tag <name>:<tag> .
    
    # Run image in container - Make sure to assign same network
-   docker run -d --rm --net <network_name> -p 80:80 -name <container_name> <name>:<tag>
+   docker run -d --rm --net <network_name> -p 80:80 --name <container_name> <name>:<tag>
    
    # Container exposes port 80, send POST request to localhost:80
     ```
@@ -50,11 +50,13 @@ We have two modules in this project:
     docker build --no-cache --tag <name>:<tag> .
     
     # Run image in container
-    docker run -d --rm --net <network_name> -name <container_name> <name>:<tag>
+    docker run -d --rm --net <network_name> --name <container_name> <name>:<tag>
     
     # This app doesn't expose ports, it just reads queue messages and prints them
     # To access the app logs
     docker logs --follow <container_name>
+   
+   ## Note:  Leave logs using Ctrl+C
     ```
    
 **Note**: `hostname` can be passed in as an environment variable to containers, meaning the `hostname` does not have to
