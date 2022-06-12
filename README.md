@@ -22,6 +22,7 @@ We have two modules in this project:
 2. Create local docker network `docker network create <network_name>`
 3. Run `RabbitMQ` image `docker run -d --rm --net <network_name> --hostname <host_name> --name <container_name> <image_name>`
    1. `<host_name>` is **important** as our applications need to know this name for `ConnectionFactory` to work.
+   2. For these modules, I've hardcoded `rabbit-1` hostname.
 4. If downloaded base `RabbitMQ` image, enable `management` plugin
    ```
     # Run docker image
