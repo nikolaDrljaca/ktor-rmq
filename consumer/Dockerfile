@@ -1,0 +1,9 @@
+FROM maven:3-amazoncorretto-11 AS build
+COPY . /home/maven/src
+WORKDIR /home/maven/src
+RUN mvn package
+
+FROM amazoncorretto:11-alpine3.13
+RUN mkdir /app
+COPY --from=build /home/maven/src/target/*-with-dependencies.jar /app/kotlin-consumer.jar
+ENTRYPOINT ["java","-jar","/app/kotlin-consumer.jar"]
