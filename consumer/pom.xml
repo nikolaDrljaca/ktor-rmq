@@ -28,6 +28,13 @@
             <type>pom</type>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.jetbrains.exposed/exposed-java-time -->
+        <dependency>
+            <groupId>org.jetbrains.exposed</groupId>
+            <artifactId>exposed-java-time</artifactId>
+            <version>0.38.2</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.jetbrains.exposed/exposed-core -->
         <dependency>
@@ -135,6 +142,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
 
         </plugins>

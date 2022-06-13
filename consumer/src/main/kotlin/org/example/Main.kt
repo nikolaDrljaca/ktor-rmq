@@ -1,7 +1,5 @@
 package org.example
 
-import com.rabbitmq.client.ConnectionFactory
-import com.rabbitmq.client.Delivery
 import org.example.dao.DatabaseFactory
 import org.example.dao.messageDao
 
@@ -31,6 +29,7 @@ suspend fun main() {
 
     messageDao.updateMessage(foo.id, "This is updated content.")
 
+    /*
     val factory = ConnectionFactory().apply {
         username = "guest"
         password = "guest"
@@ -54,6 +53,18 @@ suspend fun main() {
     )
     println("Channel created")
 
+    channel.basicConsumeDeliveryFlow("hello_world", true)
+        .collect {
+            when(it) {
+                is ChannelHelper.Delivery -> {  }
+                is ChannelHelper.Cancel -> {  }
+            }
+        }
+
+
+     */
+
+    /*
     val deliveryCallback: (String, Delivery) -> Unit = { consumerTag, delivery ->
         println("Received message: ${delivery.body.decodeToString()}")
     }
@@ -68,6 +79,6 @@ suspend fun main() {
         deliveryCallback,
         cancelCallback
     )
-
+     */
 }
 

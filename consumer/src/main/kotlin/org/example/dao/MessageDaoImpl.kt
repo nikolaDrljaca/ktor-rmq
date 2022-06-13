@@ -4,8 +4,6 @@ import kotlinx.coroutines.runBlocking
 import org.example.dao.DatabaseFactory.dbQuery
 import org.example.model.Message
 import org.example.model.Messages
-import org.example.model.Messages.content
-import org.example.model.Messages.id
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
@@ -16,7 +14,8 @@ import org.jetbrains.exposed.sql.update
 class MessageDaoImpl : MessageDao {
     private fun mapRowToMessage(row: ResultRow) = Message(
         id = row[Messages.id],
-        content = row[Messages.content]
+        content = row[Messages.content],
+        instantTimestamp = row[Messages.timestamp]
     )
 
     override suspend fun getAllMessages(): List<Message> {
