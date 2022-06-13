@@ -1,11 +1,35 @@
 package org.example
 
-import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.ConnectionFactory
-import com.rabbitmq.client.DeliverCallback
 import com.rabbitmq.client.Delivery
+import org.example.dao.DatabaseFactory
+import org.example.dao.messageDao
 
-fun main() {
+suspend fun main() {
+    DatabaseFactory.init()
+
+    println("Executing SQL statements.")
+
+    val allMessages = messageDao.getAllMessages()
+    println("Message table content: $allMessages")
+
+    println("Inserting messages.")
+    val message = messageDao.insert("This is the first message")
+    messageDao.apply {
+        insert("Second after first")
+        insert("foo bar")
+        insert("bazz bazz")
+    }
+
+    println("Message table content after insertion ${messageDao.getAllMessages()}")
+
+    message?.let { messageDao.deleteMessage(it.id) }
+
+    println("Message table content after deletion ${messageDao.getAllMessages()}")
+
+    val foo = messageDao.getAllMessages().first()
+
+    messageDao.updateMessage(foo.id, "This is updated content.")
 
     val factory = ConnectionFactory().apply {
         username = "guest"
