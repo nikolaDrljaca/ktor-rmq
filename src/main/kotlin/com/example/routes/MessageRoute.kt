@@ -39,24 +39,23 @@ fun Route.postMessageRoute(
         log.info("Message received: $message")
 
         runCatching {
-            channel.use {
-                val properties = BasicProperties.Builder()
-                    .contentType("application/json")
-                    .build()
+            val properties = BasicProperties.Builder()
+                .contentType("application/json")
+                .build()
 
-                val payload = Json.encodeToString(message)
+            val payload = Json.encodeToString(message)
 
-                //publish a message to the queue
-                channel.basicPublish(
-                    "", //exchange
-                    "hello_world", //routing key
-                    false, //mandatory
-                    properties, //props
-                    payload.toByteArray() //message to publish as ByteArray
-                )
-                log.info("Successfully published!")
-                call.respond(HttpStatusCode.OK)
-            }
+            //publish a message to the queue
+            channel.basicPublish(
+                "", //exchange
+                "hello_world", //routing key
+                false, //mandatory
+                properties, //props
+                payload.toByteArray() //message to publish as ByteArray
+            )
+            log.info("Successfully published!")
+            call.respond(HttpStatusCode.OK)
+
         }
             .onFailure { exception ->
                 log.error("Caught exception: ", exception)

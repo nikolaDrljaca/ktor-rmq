@@ -1,37 +1,29 @@
 package org.example.model
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
-data class Message(
-    val id: Int,
-    val content: String,
-    private val instantTimestamp: Instant
-) {
-    val timestamp: String = DateTimeFormatter
-        .ofPattern("dd.MM.yyyy HH:mm:ss")
-        .withZone(ZoneId.systemDefault())
-        .format(instantTimestamp)
-
-    override fun toString(): String {
-        return buildString {
-            append("Message(")
-            append("Id=$id,")
-            append("content=$content,")
-            append("timestamp=$timestamp")
-            append(")")
-        }
-    }
+class Message(id: EntityID<Int>): IntEntity(id) {
+    companion object: IntEntityClass<Message>(Messages)
+    var content by Messages.content
+    var timestamp by Messages.timestamp
+    var user by User referencedOn Messages.userId
 }
 
-object Messages: Table() {
-    val id = integer("id").autoIncrement()
+/*
+Object that describes the table entity for the database.
+ */
+object Messages: IntIdTable() {
     val content = varchar("content", 1024)
     val timestamp = timestamp("timestamp").default(Instant.now())
 
-    override val primaryKey: PrimaryKey
-        get() = PrimaryKey(id)
+    //foreign key to the user. One user has many messages
+    val userId = reference("user_id", Users.id)
+    // this is now an optional reference
+    // user optionalReferencedOn on the other side
+    //val userId = reference("user_id", Users.id).nullable()
 }

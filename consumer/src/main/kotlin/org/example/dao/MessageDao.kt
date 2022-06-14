@@ -6,7 +6,7 @@ interface MessageDao {
 
     suspend fun getAllMessages(): List<Message>
 
-    suspend fun insert(content: String): Message?
+    suspend fun insert(userId: Int, content: String): Message?
 
     suspend fun getMessageById(id: Int): Message?
 

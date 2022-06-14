@@ -34,9 +34,9 @@ suspend fun main() {
             when(it) {
                 is ChannelHelper.Delivery -> {
                     println("Received Message!")
-                    messageDao.insert(it.delivery.body.decodeToString())?.let { message ->
-                        println("Message saved! Content: $message")
-                    }
+
+                    //TODO: Function to distinct user and message
+
                     println("---------------------------")
                     println(messageDao.getAllMessages().joinToString(separator = "\n", limit = 20))
                 }
