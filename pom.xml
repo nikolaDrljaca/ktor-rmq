@@ -42,7 +42,7 @@
 
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-serialization-kotlinx-json</artifactId>
+            <artifactId>ktor-serialization-kotlinx-json-jvm</artifactId>
             <version>${ktor_version}</version>
         </dependency>
 
@@ -107,7 +107,7 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin_version}</version>
+                <version>1.7.0</version>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -123,42 +123,38 @@
                     </compilerPlugins>
                 </configuration>
                 <dependencies>
-                    <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-json -->
                     <dependency>
-                        <groupId>org.jetbrains.kotlinx</groupId>
-                        <artifactId>kotlinx-serialization-json</artifactId>
-                        <version>1.3.3</version>
-                        <type>pom</type>
-                        <scope>runtime</scope>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-serialization</artifactId>
+                        <version>${kotlin_version}</version>
                     </dependency>
-
                 </dependencies>
             </plugin>
 
-<!--            <plugin>-->
-<!--                <artifactId>kotlin-maven-plugin</artifactId>-->
-<!--                <groupId>org.jetbrains.kotlin</groupId>-->
-<!--                <version>${kotlin_version}</version>-->
-<!--                <configuration>-->
-<!--                    <jvmTarget>1.8</jvmTarget>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>compile</id>-->
-<!--                        <phase>compile</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>compile</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>test-compile</id>-->
-<!--                        <phase>test-compile</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>test-compile</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <version>${kotlin_version}</version>
+                <configuration>
+                    <jvmTarget>1.8</jvmTarget>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

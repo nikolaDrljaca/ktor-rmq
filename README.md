@@ -26,7 +26,7 @@ We have two modules in this project:
 4. If downloaded base `RabbitMQ` image, enable `management` plugin
    ```
     # Run docker image
-   docker run -d --rm --net <network_name> --hostname <host_name> --name <container_name> <image_name>
+   docker run -d --rm --net <network_name> --hostname <host_name> -p 8080:15672 --name <container_name> <image_name>
    
     # Access local container terminal
    docker exec -it <container_name> bash
@@ -63,4 +63,17 @@ We have two modules in this project:
 be hardcoded. It can be passed in while creating the container:
 ```
 docker run -it --rm -e NAME=<value> -e NAME_2=<value_2> image:tag 
+```
+
+## Local testing
+Building new docker images when application code changes can be cumbersome. For that purpose
+we can only run the `RabbitMQ` container and expose the proper ports to connect to it.
+
+Ports:
+- management: 15672
+- AMQP: 5672
+
+We only need to run the `RabbitMQ` image:
+```
+docker run -d --rm --net <network_name> --hostname <host_name> -p 8080:15672 -p 5672:5672 --name <container_name> <image_name>
 ```

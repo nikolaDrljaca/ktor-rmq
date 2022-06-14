@@ -7,10 +7,10 @@ import org.example.dao.messageDao
 suspend fun main() {
     DatabaseFactory.init()
     val factory = ConnectionFactory().apply {
-        username = "guest"
-        password = "guest"
-        host = "rabbit-1"
-        port = 5672
+//        username = "guest"
+//        password = "guest"
+//        host = "rabbit-1"
+//        port = 5672
     }
 
     println("Factory created!")
