@@ -1,14 +1,14 @@
 package org.example.dao
 
-import org.example.model.Message
+import org.example.model.MessageEntity
 
 interface MessageDao {
 
-    suspend fun getAllMessages(): List<Message>
+    suspend fun getAllMessages(): List<MessageEntity>
 
-    suspend fun insert(userId: Int, content: String): Message?
+    suspend fun insert(userId: Int, content: String): MessageEntity?
 
-    suspend fun getMessageById(id: Int): Message?
+    suspend fun getMessageById(id: Int): MessageEntity?
 
     suspend fun updateMessage(id: Int, content: String): Boolean
 

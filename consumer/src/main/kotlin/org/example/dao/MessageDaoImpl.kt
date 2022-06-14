@@ -2,24 +2,24 @@ package org.example.dao
 
 import kotlinx.coroutines.runBlocking
 import org.example.dao.DatabaseFactory.dbQuery
-import org.example.model.Message
+import org.example.model.MessageEntity
 
 class MessageDaoImpl(private val userDao: UserDao) : MessageDao {
 
-    override suspend fun getAllMessages(): List<Message> {
+    override suspend fun getAllMessages(): List<MessageEntity> {
         return dbQuery {
-            Message.all().map { it }
+            MessageEntity.all().map { it }
         }
     }
 
-    override suspend fun getMessageById(id: Int): Message? = dbQuery {
-        Message.findById(id)
+    override suspend fun getMessageById(id: Int): MessageEntity? = dbQuery {
+        MessageEntity.findById(id)
     }
 
-    override suspend fun insert(userId: Int, content: String): Message? = dbQuery {
+    override suspend fun insert(userId: Int, content: String): MessageEntity? = dbQuery {
         val user = userDao.getUserById(userId)
         user?.let {
-            Message.new {
+            MessageEntity.new {
                 this.content = content
                 this.user = it
             }
@@ -28,14 +28,14 @@ class MessageDaoImpl(private val userDao: UserDao) : MessageDao {
 
 
     override suspend fun updateMessage(id: Int, content: String): Boolean = dbQuery {
-        Message.findById(id)?.let {
+        MessageEntity.findById(id)?.let {
             it.content = content
             return@let true
         } ?: false
     }
 
     override suspend fun deleteMessage(id: Int): Boolean = dbQuery {
-        Message.findById(id)?.let {
+        MessageEntity.findById(id)?.let {
             it.delete()
             return@let true
         } ?: false

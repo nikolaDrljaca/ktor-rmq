@@ -43,7 +43,7 @@ fun Route.postMessageRoute(
                 .contentType("application/json")
                 .build()
 
-            val payload = Json.encodeToString(message)
+            val payload = Json.encodeToString(message.payload())
 
             //publish a message to the queue
             channel.basicPublish(

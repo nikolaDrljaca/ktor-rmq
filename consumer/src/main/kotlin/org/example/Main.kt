@@ -3,6 +3,7 @@ package org.example
 import com.rabbitmq.client.ConnectionFactory
 import org.example.dao.DatabaseFactory
 import org.example.dao.messageDao
+import org.example.dao.userDao
 
 suspend fun main() {
     DatabaseFactory.init()
@@ -30,12 +31,21 @@ suspend fun main() {
     println("Channel created!")
 
     channel.basicConsumeDeliveryFlow("hello_world", true)
-        .collect {
-            when(it) {
+        .collect { delivery ->
+            when(delivery) {
                 is ChannelHelper.Delivery -> {
                     println("Received Message!")
 
-                    //TODO: Function to distinct user and message
+                    decodeJsonDelivery(delivery.delivery.body.decodeToString())?.let {
+                        when(it) {
+                            is BaseDelivery.MessageDelivery -> {
+                                messageDao.insert(userId = it.userId, content = it.content)
+                            }
+                            is BaseDelivery.UserDelivery -> {
+                                userDao.insert(name = it.name, email = it.email)
+                            }
+                        }
+                    }
 
                     println("---------------------------")
                     println(messageDao.getAllMessages().joinToString(separator = "\n", limit = 20))

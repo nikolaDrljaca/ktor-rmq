@@ -1,7 +1,8 @@
 package org.example.dao
 
 import kotlinx.coroutines.Dispatchers
-import org.example.model.Messages
+import org.example.model.MessageTable
+import org.example.model.UserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -20,7 +21,7 @@ object DatabaseFactory {
         If the schemas are already present this code does nothing.
          */
         transaction(database) {
-            SchemaUtils.create(Messages)
+            SchemaUtils.create(UserTable, MessageTable)
         }
     }
 
