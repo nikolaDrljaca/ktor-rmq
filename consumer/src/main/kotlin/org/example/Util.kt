@@ -26,16 +26,30 @@ fun Channel.basicConsumeDeliveryFlow(queueName: String, autoAck: Boolean) = call
 
 sealed class BaseDelivery {
     @kotlinx.serialization.Serializable
-    data class UserDelivery(val name: String, val email: String): BaseDelivery()
+    data class UserDelivery(val name: String, val email: String) : BaseDelivery()
+
     @kotlinx.serialization.Serializable
-    data class MessageDelivery(val userId: Int, val content: String): BaseDelivery()
+    data class MessageDelivery(val userId: Int, val content: String) : BaseDelivery()
 }
 
 fun decodeJsonDelivery(input: String): BaseDelivery? {
     val payload = Json.decodeFromString<Map<String, String>>(input)
     return when (payload["tag"]) {
-            "user" -> { Json.decodeFromString<BaseDelivery.UserDelivery>(payload["payload"] ?: "") }
-            "msg" -> { Json.decodeFromString<BaseDelivery.MessageDelivery>(payload["payload"] ?: "") }
-            else -> { null }
+        "user" -> {
+            Json.decodeFromString<BaseDelivery.UserDelivery>(payload["payload"] ?: "")
+        }
+        "msg" -> {
+            Json.decodeFromString<BaseDelivery.MessageDelivery>(payload["payload"] ?: "")
+        }
+        else -> {
+            null
+        }
     }
 }
+
+fun generateRandomString(length: Int = 15) =
+    buildList {
+        val alphabet: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        repeat(length) { add(alphabet.random()) }
+    }.joinToString("")
+

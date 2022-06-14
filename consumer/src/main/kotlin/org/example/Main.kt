@@ -1,12 +1,63 @@
 package org.example
 
-import com.rabbitmq.client.ConnectionFactory
 import org.example.dao.DatabaseFactory
 import org.example.dao.messageDao
 import org.example.dao.userDao
 
 suspend fun main() {
     DatabaseFactory.init()
+
+    val e1 = userDao.insert("NikolaD", email = "nikola@doa.com")
+    val e2 = userDao.insert("joe_rogan", email = "joe@rogan.com")
+    val e3 = userDao.insert("mike", email = "mike@you.com")
+    val e4 = userDao.insert("arnold", email = "arnold@doa.org")
+
+    messageDao.apply {
+        insert(e1.id.value, generateRandomString())
+        insert(e1.id.value, generateRandomString())
+        insert(e1.id.value, generateRandomString())
+        insert(e1.id.value, generateRandomString())
+
+        insert(e2.id.value, generateRandomString())
+        insert(e2.id.value, generateRandomString())
+        insert(e2.id.value, generateRandomString())
+
+        insert(e3.id.value, generateRandomString())
+        insert(e3.id.value, generateRandomString())
+
+        insert(e4.id.value, generateRandomString())
+        insert(e4.id.value, generateRandomString())
+
+        insert(332, generateRandomString())
+    }
+
+    println("----------- Initialization finished. -----------")
+
+    println("User 1:")
+    println(e1.messages.toList().joinToString("\n"))
+    println("User 2:")
+    println(e2.messages.toList().joinToString("\n"))
+    println("User 3:")
+    println(e3.messages.toList().joinToString("\n"))
+    println("User 4:")
+    println(e4.messages.toList().joinToString("\n"))
+
+    userDao.deleteUser(e2.id.value)
+
+    println(userDao.getAllUsers().joinToString("\n"))
+
+    println("Messages ==========")
+    println(messageDao.getAllMessages().joinToString("\n"))
+
+    val message = messageDao.getMessageById(3)
+    println(message)
+
+    messageDao.updateMessage(3, "New content")
+
+    messageDao.deleteMessage(2)
+
+
+    /*
     val factory = ConnectionFactory().apply {
 //        username = "guest"
 //        password = "guest"
@@ -55,5 +106,7 @@ suspend fun main() {
                 }
             }
         }
+
+     */
 }
 

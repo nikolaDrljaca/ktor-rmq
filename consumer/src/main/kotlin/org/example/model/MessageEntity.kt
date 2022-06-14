@@ -4,6 +4,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.time.Instant
 
@@ -22,7 +23,11 @@ object MessageTable: IntIdTable() {
     val timestamp = timestamp("timestamp").default(Instant.now())
 
     //foreign key to the user. One user has many messages
-    val userId = reference("user_id", UserTable.id)
+    val userId = reference(
+        name = "user_id",
+        refColumn = UserTable.id,
+        onDelete = ReferenceOption.CASCADE
+    )
     // this is now an optional reference
     // user optionalReferencedOn on the other side
     //val userId = reference("user_id", Users.id).nullable()

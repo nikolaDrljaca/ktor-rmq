@@ -7,13 +7,24 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+/*
+For connections to PostgreSQL, we can use environment variables passed when starting the
+docker container to give url(host will be the docker network, hostname) username and password.
 
+ */
 object DatabaseFactory {
     fun init() {
-        val driverClassName = "org.h2.Driver"
-        val jdbcURL = "jdbc:h2:file:./build/database"
+        val driverClassName = "org.postgresql.Driver"
+        val jdbcURL = "jdbc:postgresql://localhost:5432/rmq"
+        val username = "postgres"
+        val password = "nikola123"
         val database by lazy {
-            Database.connect(jdbcURL, driverClassName)
+            Database.connect(
+                url = jdbcURL,
+                driver = driverClassName,
+                user = username,
+                password = password
+            )
         }
 
         /*
